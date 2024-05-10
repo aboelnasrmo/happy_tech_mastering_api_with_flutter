@@ -18,7 +18,6 @@ class SignInScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is SignInSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
