@@ -1,12 +1,13 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cache/cache_helper.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/api/api_consumer.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/api/end_points.dart';
 import 'package:happy_tech_mastering_api_with_flutter/core/errors/exceptions.dart';
+import 'package:happy_tech_mastering_api_with_flutter/core/functions/upload_image_to_api.dart';
 import 'package:happy_tech_mastering_api_with_flutter/cubit/user_state.dart';
 import 'package:happy_tech_mastering_api_with_flutter/models/sign_in_model.dart';
+import 'package:happy_tech_mastering_api_with_flutter/models/sign_up_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -53,6 +54,31 @@ class UserCubit extends Cubit<UserState> {
       return response;
     } on ServerExceptions catch (e) {
       emit(SignInFailure(errorMsg: e.errorModel.errorMessage));
+    }
+  }
+
+  uploadProfilePic(XFile image) {
+    profilePic = image;
+    emit(UploadProfilePic());
+  }
+
+  signUp() async {
+    try {
+      emit(SignInLoading());
+      final response = await api.post(EndPoint.signUp, isFormData: true, data: {
+        ApiKey.name: signUpName.text,
+        ApiKey.phone: signUpPhoneNumber.text,
+        ApiKey.email: signUpEmail.text,
+        ApiKey.password: signUpPassword.text,
+        ApiKey.confirmPassword: confirmPassword.text,
+        ApiKey.location:
+            '{"name":"methalfa","address":"meet halfa","coordinates":[30.1572709,31.224779]}',
+        ApiKey.profilePic: await uploadImageToApi(profilePic!),
+      });
+      final signUpModel = SignUpModel.fromJson(response);
+      emit(SignUpSuccess(message: signUpModel.message));
+    } on ServerExceptions catch (e) {
+      emit(SignUpFailure(errorMsg: e.errorModel.errorMessage));
     }
   }
 }

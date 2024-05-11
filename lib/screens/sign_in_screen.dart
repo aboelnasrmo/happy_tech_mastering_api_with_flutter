@@ -10,7 +10,7 @@ import 'package:happy_tech_mastering_api_with_flutter/widgets/page_header.dart';
 import 'package:happy_tech_mastering_api_with_flutter/widgets/page_heading.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

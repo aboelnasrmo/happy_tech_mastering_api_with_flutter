@@ -12,4 +12,10 @@ class ApiKey {
   static const String token = 'token';
   static const String id = 'id';
   static const String message = 'message';
+  static const String name = 'name';
+  static const String phone = 'phone';
+  static const String confirmPassword = 'confirmPassword';
+  static const String profilePic = 'profilePic';
+  static const String image = 'image';
+  static const String location = 'location';
 }

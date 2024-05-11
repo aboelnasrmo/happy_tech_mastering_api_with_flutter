@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PageHeading extends StatelessWidget {
   final String title;
-  const PageHeading({Key? key, required this.title}) : super(key: key);
+  const PageHeading({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
